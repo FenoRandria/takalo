@@ -16,6 +16,7 @@ CREATE TABLE categorie (
     categorie_id INTEGER NOT NULL PRIMARY KEY auto_increment,
     categorie_name VARCHAR(150)
 );
+alter table categorie add corbeil integer default 0;
 CREATE TABLE objet (
     objet_id INTEGER NOT NULL PRIMARY KEY auto_increment,
     objet_description TEXT,
@@ -51,7 +52,7 @@ insert INTO photodeprofil VALUES(null,'%s',%d);
 -- detail objet
 SELECT * FROM objet WHERE objet_id = %d;
 -- liste objet par utilisateur
-SELECT * FROM publication where (pub_objet_id1 = %d or pub_objet_id2 = %d) and  pub_date_acception is null;
+SELECT * FROM publication where pub_objet_id1 = %d and  pub_date_acception is null;
 -- liste demande a chaque objet d'un utilisateur
 SELECT * FROM publication WHERE pub_objet_id1 = %d and pub_objet_id2 is not null and pub_date_acception is null;
 -- insert objet and photobjet and publication 
