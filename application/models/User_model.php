@@ -4,8 +4,8 @@
     {
         public function checklogin($mail,$pwd)
         {
-            $sql = "SELECT * from utilisateur where utilisateur_mail = '%s' and utilisateur_pwd = '%s'";
-            $sql = sprintf($sql,$this->db->escape($mail,$pwd));
+            $sql = "SELECT * from utilisateur where utilisateur_mail = %s and utilisateur_pwd = %s";
+            $sql = sprintf($sql,$this->db->escape($mail),$this->db->escape($pwd));
             $query = $this->db->query($sql);
             $row = $query->row_array(); 
             return $row;
@@ -13,8 +13,8 @@
 
         public function inscrire($mail,$name,$pwd)
         {
-            $sql = "insert INTO utilisateur VALUES (null,'%s','%s','%s')";
-            $sql = sprintf($sql,$this->db->escape($mail,$name,$pwd));
+            $sql = "insert INTO utilisateur VALUES (null,%s,%s,%s)";
+            $sql = sprintf($sql,$this->db->escape($mail),$this->db->escape($name),$this->db->escape($pwd));
             $query = $this->db->query($sql);
             if ($query == 0) 
             {
@@ -58,7 +58,7 @@
                     {
                         echo 'Upload effectué avec succès !';
                         $sql = "insert INTO photodeprofil VALUES(null,'%s',%d)";
-                        $sql = sprintf($sql,$this->db->escape($photo,$id));
+                        $sql = sprintf($sql,$this->db->escape($photo),$this->db->escape($id));
                         $query = $this->db->query($sql);
                         if ($query != 0) 
                         {

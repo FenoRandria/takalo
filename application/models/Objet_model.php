@@ -13,32 +13,41 @@
 
         public function get_objet_utilisateur($id)
         {
-            $sql = "SELECT * FROM publication where pub_objet_id1 = %d and  pub_date_acceptation is null";
+            $sql = "SELECT * FROM objet where objet_utilisateur_id = %s and objet_id not in (select echange_objet_id1 from echange where echange_date_acceptation is not null) and objet_id not in (select echange_objet_id2 from echange where echange_date_acceptation is not null)";
             $sql = sprintf($sql,$this->db->escape($id));
-            $list = array();
             $query = $this->db->query($sql);
-            foreach ($query->result_array() as $row); 
-            {
-                $list[] = $row;
-            }
-            return $list;
+            return $query->result_array(); 
         }
+
+        public function get_objets()
+        {
+            $sql = "SELECT * FROM objet where objet_id not in (select echange_objet_id1 from echange where echange_date_acceptation is not null) and objet_id not in (select echange_objet_id2 from echange where echange_date_acceptation is not null)";
+            $query = $this->db->query($sql);
+            return $query->result_array();
+        }
+
 
         public function add_object($description,$prix,$categorie_id,$utilisateur_id)
         {
-            $sql1 = "INSERT into objet VALUES (NULL,'%s',%d,%d,%d)";
-            $sql1 = sprintf($sql1,$this->db->escape($description,$prix,$categorie_id,$utilisateur_id));
-            $query1 = $this->db->query($sql1);
-            $sql2 = "SELECT objet_id FROM WHERE objet_description = '%s' and objet_prix = %d and objet_categorie_id = '%s' and objet_utilisateur_id = %d";
-            $sql2 = sprintf($sql2,$this->db->escape($description,$prix,$categorie_id,$utilisateur_id));
-            $query2 = $this->query($sql2);
-            $result = $query2->row_array();
+            $result = 0;
+            if (isset($description) && isset($prix) && isset($categorie_id) && isset($utilisateur_id)) 
+            {
+                $sql1 = "INSERT into objet VALUES (NULL,%s,%s,%s,%s)";
+                $sql1 = sprintf($sql1,$this->db->escape($description),$this->db->escape($prix),$this->db->escape($categorie_id),$this->db->escape($utilisateur_id));
+                echo $sql1;
+                $result = $this->db->query($sql1);
+                $sql2 = "SELECT objet_id FROM objet WHERE objet_description = %s and objet_prix = %s and objet_categorie_id = %s and objet_utilisateur_id = %s";
+                $sql2 = sprintf($sql2,$this->db->escape($description),$this->db->escape($prix),$this->db->escape($categorie_id),$this->db->escape($utilisateur_id));
+                $result = $this->query($sql2);
+                // foreach ($query2 as $row) {
+                //     $result = $query2->result_array();
+                // }
+            }
             return $result;
         }
 
         public function add_photos_objet($photos,$objet_id)
         {
-
             if(isset($photos) && $photos != null)
             {
                 $countfiles = count($photos['name']);
@@ -94,28 +103,35 @@
             return $count;
         }
 
-        public function add_publication($id_objet)
+        public function envoye_demande_echange($id_objet1,$id_objet2)
         {
-            $sql = "INSERT into publication (null,%d,NULL,NULL,NULL);";
-            $sql = sprintf($sql,$this->db->escape($id_objet));
+            $sql = "INSERT into echange values (%s,%s,now(),null)";
+            $sql = sprintf($sql,$this->db->escape($id_objet1),$this->db->escape($id_objet2));
             $query = $this->db->query($sql);
             if ($query==0) return false;
             return true;
         }
-
-        public function envoye_demande_echange($id_objet2,$pub_id)
+        public function list_demande_recu($id_utilisateur)
         {
-            $sql = "UPDATE publication set pub_date_demande = now(),pub_objet_id2 = %d WHERE pub_id = %d";
-            $sql = sprintf($sql,$this->db->escape($id_objet2,$pub_id));
+            $sql = "SELECT * from objet where objet_id in (SELECT echange_objet_id1 FROM echange WHERE echange_objet_id1 in (SELECT objet_id FROM objet where objet_utilisateur_id = %s) and echange_objet_id2 is not null and echange_date_demande is not null and echange_date_acceptation is null)";
+            $sql = sprintf($sql,$this->db->escape($id_utilisateur));
             $query = $this->db->query($sql);
-            if ($query==0) return false;
-            return true;
+            return $query->result_array();
         }
-
-        public function refus_demande_echange($pub_id)
+        public function list_demande_envoie($id_utilisateur)
         {
-            $sql = "UPDATE publication set pub_date_demande = null, pub_objet_id2 = null WHERE pub_id = %d";
-            $sql = sprintf($sql,$this->db->escape($id_objet2,$pub_id));
+            $sql = "SELECT * from objet where objet_id in (SELECT echange_objet_id2 FROM echange WHERE echange_objet_id2 in (SELECT objet_id FROM objet where objet_utilisateur_id = %s) and echange_objet_id1 is not null and echange_date_demande is not null and echange_date_acceptation is null)";
+            $sql = sprintf($sql,$this->db->escape($id_utilisateur));
+            $query = $this->db->query($sql);
+            return $query->result_array();
+        }
+        
+
+        public function refus_demande_echange($obj2)
+        {
+            $sql = "UPDATE echange set pub_date_demande = null, change_objet_id2 = null where  change_objet_id2 = %s";
+            $sql = sprintf($sql,$this->db->escape($obj2));
+            
             $query = $this->db->query($sql);
             if ($query==0) return false;
             return true;
@@ -130,7 +146,7 @@
         //     return true;
         // }
 
-        public function acceptation_demande_echange($pub_id)
+        public function acceptation_demande_echange($obj1,$obj2)
         {
             $sql = "UPDATE publication set pub_date_acceptation = now() WHERE pub_id = %d";
             $sql = sprintf($sql,$this->db->escape($id_objet2,$pub_id));
@@ -147,10 +163,6 @@
             if ($query==0) return false;
             return true;
         }
-        
-        
-
-
 
    }
 ?>
