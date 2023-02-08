@@ -16,8 +16,8 @@
 	<!-- Site Title -->
 	<title>E- TAKALO</title>
 	<!--
-			CSS
-			============================================= -->
+		CSS
+		============================================= -->
 	<link rel="stylesheet" href="css/linearicons.css">
 	<link rel="stylesheet" href="css/font-awesome.min.css">
 	<link rel="stylesheet" href="css/themify-icons.css">
@@ -27,6 +27,7 @@
 	<link rel="stylesheet" href="css/nouislider.min.css">
 	<link rel="stylesheet" href="css/ion.rangeSlider.css" />
 	<link rel="stylesheet" href="css/ion.rangeSlider.skinFlat.css" />
+	<link rel="stylesheet" href="css/magnific-popup.css">
 	<link rel="stylesheet" href="css/main.css">
 </head>
 
@@ -36,9 +37,9 @@
 	<header class="header_area sticky-header">
 		<div class="main_menu">
 			<nav class="navbar navbar-expand-lg navbar-light main_box">
-				<div class="container">
+			<div class="container">
 					<!-- Brand and toggle get grouped for better mobile display -->
-					<a class="navbar-brand logo_h" href="profile.php"> <img src="img/bg2.jpg" width="50" height="50" style="border-radius:90em" ></a>
+					<a class="navbar-brand logo_h" href=" <?php echo base_url('welcome/profile')?>"> <img src="img/bg2.jpg" width="50" height="50" style="border-radius:90em" ></a>
 					<a class="navbar-brand logo_h">E- TAKALO</a>
 					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
 					 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -49,25 +50,27 @@
 					<!-- Collect the nav links, forms, and other content for toggling -->
 					<div class="collapse navbar-collapse offset" id="navbarSupportedContent">
 						<ul class="nav navbar-nav menu_nav ml-auto">
-							<li class="nav-item active"><a class="nav-link" href="accueil.php">Home</a></li>
-							<li class="nav-item submenu dropdown">
-								<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-								 aria-expanded="false">Shop</a>
-								<ul class="dropdown-menu">
-									<li class="nav-item"><a class="nav-link" href="single-product.php">Product Details</a></li>
-								</ul>
-							</li>
+							<li class="nav-item active"><a class="nav-link" href="<?php echo base_url('welcome/home')?>">Home</a></li>
+							 
 							
 							<li class="nav-item submenu dropdown">
 								<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-								 aria-expanded="false">Pages</a>
+								 aria-expanded="false">Add Objet</a>
 								<ul class="dropdown-menu">
-									<li class="nav-item"><a class="nav-link" href="add.php">ADD OBJECT</a></li>
+									<li class="nav-item"><a class="nav-link" href="<?php echo base_url('welcome/addobjet')?>">ADD OBJECT</a></li>
+								</ul>
+							</li>
+							<li class="nav-item submenu dropdown">
+								<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+								 aria-expanded="false">Categories</a>
+								<ul class="dropdown-menu">
+									<li class="nav-item"><a class="nav-link" href="<?php echo base_url('welcome/listcategory')?>">LIST</a></li>
+									<li class="nav-item"><a class="nav-link" href="<?php echo base_url('welcome/addcategory')?>">ADD CATEGORY</a></li>
 								</ul>
 							</li>
 						</ul>
 						<ul class="nav navbar-nav navbar-right">
-							<li class="nav-item"><a href="#" class="cart"><span class="ti-bag"></span></a></li>
+							<li class="nav-item"><a href="<?php echo base_url('welcome/search')?>" class="cart"><span class="ti-bag"></span></a></li>
 							<li class="nav-item">
 								<button class="search"><span class="lnr lnr-magnifier" id="search"></span></button>
 							</li>
@@ -88,58 +91,103 @@
 	</header>
 	<!-- End Header Area -->
 
-	<!-- Start Banner Area -->
+	<!-- start banner Area -->
+	
+	<!-- End banner Area -->
 
-	<!-- End Banner Area -->
+	<!-- start features Area -->
+	<!-- end features Area -->
 
-	<!--================Single Product Area =================-->
-	<div class="product_image_area">
-		<div class="container">
-			<div class="row s_product_inner">
-				<div class="col-lg-6">
-					<div class="s_Product_carousel">
-						<div class="single-prd-item">
-							<img class="img-fluid" src="img/category/s-p1.jpg" alt="">
-						</div>
-						<div class="single-prd-item">
-							<img class="img-fluid" src="img/category/s-p1.jpg" alt="">
-						</div>
-						<div class="single-prd-item">
-							<img class="img-fluid" src="img/category/s-p1.jpg" alt="">
+	<!-- Start category Area -->
+	
+	<!-- End category Area -->
+
+	<!-- start product Area -->
+	<section class="owl-carousel active-product-area section_gap">
+		<!-- single product slide -->
+		<div class="single-product-slider">
+			<div class="container">
+				<div class="row justify-content-center">
+					<div class="col-lg-6 text-center">
+						<div class="section-title">
+							<h1>All Categories</h1>
 						</div>
 					</div>
 				</div>
-				<div class="col-lg-5 offset-lg-1">
-					<div class="s_product_text">
-						<h3>Faded SkyBlu Denim Jeans</h3>
-						<ul class="list">
-							<li><a class="active" href="#"><span>Category</span> : Household</a></li>
-							<li><a href="#"><span>Availibility</span> : In Stock</a></li>
-						</ul>
-						<p>Mill Oil is an innovative oil filled radiator with the most modern technology. If you are looking for
-							something that can make your interior look awesome, and at the same time give you the pleasant warm feeling
-							during the winter.</p>
-					
-						<div class="card_area d-flex align-items-center">
-							<a class="primary-btn" href="#">Exchange</a>
+				<div class="row">
+					<h1>Categories : </h1>
+					<!-- single product -->
+					<div class="col-lg-3 col-md-6">
+						<div class="single-product">
+							<a href="#"><img class="img-fluid" src="img/product/p1.jpg" alt=""></a>
+							<div class="product-details">
+								<h6>addidas New Hammer sole
+									for Sports person</h6>
+								
+								<div class="prd-bottom">
+                                 
+									<a href="" class="social-info">
+										<span class="ti-bag"></span>
+										<p class="hover-text">update</p>
+									</a>
+									<a href="" class="social-info">
+										<span class="ti-bag"></span>
+										<p class="hover-text">delete</p>
+									</a>
+									
+								</div>
+							</div>
 						</div>
 					</div>
+					
 				</div>
 			</div>
 		</div>
-	</div>
-	<!--================End Single Product Area =================-->
+		<!-- single product slide -->
+		<div class="single-product-slider">
+			
+		</div>
+	</section>
+	<!-- end product Area -->
 
-	<!--================Product Description Area =================-->
-	<!--================End Product Description Area =================-->
+	<!-- Start exclusive deal Area -->
+	
+	<!-- End exclusive deal Area -->
+
+	<!-- Start brand Area -->
+	<section class="brand-area section_gap">
+		<div class="container">
+			<div class="row">
+				<a class="col single-img" href="#">
+					<img class="img-fluid d-block mx-auto" src="img/brand/1.png" alt="">
+				</a>
+				<a class="col single-img" href="#">
+					<img class="img-fluid d-block mx-auto" src="img/brand/2.png" alt="">
+				</a>
+				<a class="col single-img" href="#">
+					<img class="img-fluid d-block mx-auto" src="img/brand/3.png" alt="">
+				</a>
+				<a class="col single-img" href="#">
+					<img class="img-fluid d-block mx-auto" src="img/brand/4.png" alt="">
+				</a>
+				<a class="col single-img" href="#">
+					<img class="img-fluid d-block mx-auto" src="img/brand/5.png" alt="">
+				</a>
+			</div>
+		</div>
+	</section>
+	<!-- End brand Area -->
 
 	<!-- Start related-product Area -->
+
 	<!-- End related-product Area -->
 
 	<!-- start footer Area -->
 	<footer class="footer-area section_gap">
 		<div class="container">
 			<div class="row">
+				
+			
 				
 				<div class="col-lg-2 col-md-6 col-sm-6">
 					<div class="single-footer-widget">
@@ -156,7 +204,7 @@
 			</div>
 			<div class="footer-bottom d-flex justify-content-center align-items-center flex-wrap">
 				<p class="footer-text m-0"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved
+Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved 
 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 </p>
 			</div>
@@ -172,13 +220,13 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 	<script src="js/jquery.nice-select.min.js"></script>
 	<script src="js/jquery.sticky.js"></script>
 	<script src="js/nouislider.min.js"></script>
+	<script src="js/countdown.js"></script>
 	<script src="js/jquery.magnific-popup.min.js"></script>
 	<script src="js/owl.carousel.min.js"></script>
 	<!--gmaps Js-->
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
 	<script src="js/gmaps.min.js"></script>
 	<script src="js/main.js"></script>
-
 </body>
 
 </html>
