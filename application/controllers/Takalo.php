@@ -21,10 +21,7 @@ class Takalo extends CI_Controller {
     public function __construct(){
         parent::__construct();
         $this->load->model('User_Admin');   
-    }
-	public function index()
-	{
-		$this->load->view('welcome_message');
-		
-	}		
+        $this->load->model('Objet_model');   
+        $this->load->model('Pub_Admin');   
+    }	
 }
