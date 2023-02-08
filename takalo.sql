@@ -37,7 +37,7 @@ CREATE TABLE publication (
     pub_objet_id1 INTEGER,
     pub_objet_id2 INTEGER,
     pub_date_demande DATETIME,
-    pub_date_acception DATETIME,
+    pub_date_acceptation DATETIME,
     Foreign Key (pub_objet_id1) REFERENCES objet(objet_id),
     Foreign Key (pub_objet_id2) REFERENCES objet(objet_id)
 );
@@ -52,15 +52,24 @@ insert INTO photodeprofil VALUES(null,'%s',%d);
 -- detail objet
 SELECT * FROM objet WHERE objet_id = %d;
 -- liste objet par utilisateur
-SELECT * FROM publication where pub_objet_id1 = %d and  pub_date_acception is null;
+SELECT * FROM publication where pub_objet_id1 = %d and  pub_date_acceptation is null;
 -- liste demande a chaque objet d'un utilisateur
-SELECT * FROM publication WHERE pub_objet_id1 = %d and pub_objet_id2 is not null and pub_date_acception is null;
+SELECT * FROM publication WHERE pub_objet_id1 = %d and pub_objet_id2 is not null and pub_date_acceptation is null;
 -- insert objet and photobjet and publication 
-INSERT into objet VALUES (NULL,'%s',%d,'%s','%s');
+INSERT into objet VALUES (NULL,'%s',%d,%d,%d);
 INSERT photobjet VALUES(null,'%s',%d);
 SELECT objet_id FROM WHERE objet_description = '%s' and objet_prix = %d and objet_categorie_id = '%s' and objet_utilisateur_id = %d;
 INSERT into publication (null,%d,NULL,NULL,NULL);
 
 -- --------------------------------------------------- requete  transaction objet entre deux utilisateurs ----------------------------------------------------------------------------------------------
 -- envoye demande
-UPDATE publication set pub_date_acception = now(),pub_objet_id2 = %d WHERE pub_id = %d;
+UPDATE publication set pub_date_demande = now(),pub_objet_id2 = %d WHERE pub_id = %d;
+-- refus demande 
+UPDATE publication set pub_date_demande = null, pub_objet_id2 = null WHERE pub_id = %d;
+
+-- acceptation demande 
+UPDATE publication set pub_date_acceptation = now() WHERE pub_id = %d;
+
+-- echange proprietaire
+
+

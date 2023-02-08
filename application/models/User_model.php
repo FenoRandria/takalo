@@ -5,7 +5,7 @@
         public function checklogin($mail,$pwd)
         {
             $sql = "SELECT * from utilisateur where utilisateur_mail = '%s' and utilisateur_pwd = '%s'";
-            $query = sprintf($sql,$this->db->escape($mail,$pwd));
+            $sql = sprintf($sql,$this->db->escape($mail,$pwd));
             $query = $this->db->query($sql);
             $row = $query->row_array(); 
             return $row;
