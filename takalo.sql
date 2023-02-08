@@ -6,6 +6,7 @@ CREATE TABLE utilisateur (
     utilisateur_mail VARCHAR(150) not null,
     utilisateur_pwd VARCHAR(60) not null
 );
+
 CREATE TABLE photodeprofil (
     pdp_id INTEGER NOT NULL PRIMARY KEY auto_increment,
     pdp_photo VARCHAR(150),
@@ -32,14 +33,13 @@ CREATE TABLE photobjet (
     photobjet_objet_id INTEGER not null,
     Foreign Key (photobjet_objet_id) REFERENCES objet(objet_id)
 );
-CREATE TABLE publication (
-    pub_id INTEGER NOT NULL PRIMARY KEY auto_increment,
-    pub_objet_id1 INTEGER,
-    pub_objet_id2 INTEGER,
-    pub_date_demande DATETIME,
-    pub_date_acceptation DATETIME,
-    Foreign Key (pub_objet_id1) REFERENCES objet(objet_id),
-    Foreign Key (pub_objet_id2) REFERENCES objet(objet_id)
+CREATE TABLE echange (
+    echange_objet_id1 INTEGER not null,
+    echange_objet_id2 INTEGER not null,
+    echange_date_demande DATETIME not null,
+    echange_date_acceptation DATETIME,
+    Foreign Key (echange_objet_id1) REFERENCES objet(objet_id),
+    Foreign Key (echange_objet_id2) REFERENCES objet(objet_id)
 );
 -- --------------------------------------------------- requete pour l'utilisateur ----------------------------------------------------------------------------------------------
 -- login
@@ -51,24 +51,26 @@ insert INTO photodeprofil VALUES(null,'%s',%d);
 -- --------------------------------------------------- requete pour l'objet ----------------------------------------------------------------------------------------------
 -- detail objet
 SELECT * FROM objet WHERE objet_id = %d;
--- liste objet par utilisateur
-SELECT * FROM publication where pub_objet_id1 = %d and  pub_date_acceptation is null;
+-- liste objet par utilisateur dans profile
+SELECT objet_id,objet_description,objet_prix,objet_categorie_id,objet_utilisateur_id FROM objet,echange where objet_utilisateur_id = echange_objet_id1 or objet_utilisateur_id = echange_objet_id2  and  echange_date_acceptation is null;
+SELECT * FROM echange where echange_objet_id1 in (SELECT objet_id FROM objet where objet_utilisateur_id = %d)  and  echange_date_acceptation is null;
 -- liste demande a chaque objet d'un utilisateur
-SELECT * FROM publication WHERE pub_objet_id1 = %d and pub_objet_id2 is not null and pub_date_acceptation is null;
--- insert objet and photobjet and publication 
+SELECT * FROM echange WHERE echange_objet_id1 in (SELECT objet_id FROM objet where objet_utilisateur_id = 1) and echange_objet_id2 is not null and echange_date_demande is not null and echange_date_acceptation is null;
+-- insert objet and photobjet and echange 
 INSERT into objet VALUES (NULL,'%s',%d,%d,%d);
 INSERT photobjet VALUES(null,'%s',%d);
 SELECT objet_id FROM WHERE objet_description = '%s' and objet_prix = %d and objet_categorie_id = '%s' and objet_utilisateur_id = %d;
-INSERT into publication (null,%d,NULL,NULL,NULL);
+INSERT into echange (null,%d,NULL,NULL,NULL);
 
 -- --------------------------------------------------- requete  transaction objet entre deux utilisateurs ----------------------------------------------------------------------------------------------
 -- envoye demande
-UPDATE publication set pub_date_demande = now(),pub_objet_id2 = %d WHERE pub_id = %d;
+UPDATE echange set echange_date_demande = now(),echange_objet_id2 = 4 WHERE echange_id = 1;
+UPDATE echange set echange_date_demande = now(),echange_objet_id2 = 2 WHERE echange_id = 1;
 -- refus demande 
-UPDATE publication set pub_date_demande = null, pub_objet_id2 = null WHERE pub_id = %d;
+UPDATE echange set echange_date_demande = null, echange_objet_id2 = null WHERE echange_id = %d;
 
 -- acceptation demande 
-UPDATE publication set pub_date_acceptation = now() WHERE pub_id = %d;
+UPDATE echange set echange_date_acceptation = now() WHERE echange_id = %d;
 
 -- echange proprietaire
 
