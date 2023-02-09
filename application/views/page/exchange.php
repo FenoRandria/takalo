@@ -1,3 +1,4 @@
+<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 <!-- start banner Area -->
 <section class="banner-area">
 		<div class="container">

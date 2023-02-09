@@ -1,4 +1,5 @@
 
+<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 	<!--================Login Box Area =================-->
 	<section class="login_box_area section_gap">
 		<div class="container">

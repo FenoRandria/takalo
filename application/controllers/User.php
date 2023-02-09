@@ -35,7 +35,7 @@ class User extends CI_Controller
 
     public function inscription()
     {
-        $this->load->model('User_Model');
+        $this->load->model('user_model');
 		if(strcmp($this->input->post('name'), "")==0 || strcmp($this->input->post('mail'), "")==0 || strcmp($this->input->post('pwd'), "")==0 || strcmp($this->input->post('confirmation'), "")==0)
 		{
 			$data['error'] = 0;
@@ -45,7 +45,7 @@ class User extends CI_Controller
 			$data['error'] = 4;
 			$this->load->view('login',$data);
 		}
-        $result = $this->User_Model->inscrire($this->input->post('name'),$this->input->post('mail'), $this->input->post('pwd'));
+        $result = $this->user_model->inscrire($this->input->post('name'),$this->input->post('mail'), $this->input->post('pwd'));
         if($result == true)
         {
 			$data['succes'] = 100;

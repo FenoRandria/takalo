@@ -1,4 +1,5 @@
 <!-- start footer Area -->
+<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 	<footer class="footer-area section_gap">
 		<div class="container">
 			<div class="row">

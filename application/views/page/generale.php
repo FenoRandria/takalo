@@ -1,4 +1,5 @@
   <!--header------------>
+<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
   <?php $this->load->view("page/header");?>
   <!--header-------------->
   <!-- Page Content -->
